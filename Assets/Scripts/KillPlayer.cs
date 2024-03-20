@@ -86,6 +86,6 @@ public class KillPlayer : MonoBehaviour
         }
 
         // Marquer les obstacles comme activ�s
-        areObstaclesDisabled = true;
+        areObstaclesDisabled = false;
     }
 }
