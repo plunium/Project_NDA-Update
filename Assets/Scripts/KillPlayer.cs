@@ -9,14 +9,14 @@ public class KillPlayer : MonoBehaviour
     public Transform respawnPoint; // Point de respawn du joueur
     public GameObject deathMenuCanvas;
 
-    private bool isPlayerDead = false; // Booléen pour suivre l'état de mort du joueur
-    private bool areObstaclesDisabled = false; // Booléen pour suivre l'état de désactivation des obstacles
+    private bool isPlayerDead = false; // Boolï¿½en pour suivre l'ï¿½tat de mort du joueur
+    private bool areObstaclesDisabled = false; // Boolï¿½en pour suivre l'ï¿½tat de dï¿½sactivation des obstacles
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Obstacle") && !isPlayerDead) // Vérifie si le joueur entre en collision avec une zone de mort et n'est pas déjà mort
+        if (other.CompareTag("Obstacle") && !isPlayerDead) // Vï¿½rifie si le joueur entre en collision avec une zone de mort et n'est pas dï¿½jï¿½ mort
         {
-            // Désactiver les BoxCollider des obstacles si ce n'est pas déjà fait
+            // Dï¿½sactiver les BoxCollider des obstacles si ce n'est pas dï¿½jï¿½ fait
             if (!areObstaclesDisabled)
             {
                 DisableObstacleColliders();
@@ -31,32 +31,32 @@ public class KillPlayer : MonoBehaviour
                 deathMenuCanvas.SetActive(true);
             }
 
-            // Réinitialiser la position du joueur au point de respawn
+            // Rï¿½initialiser la position du joueur au point de respawn
             transform.position = respawnPoint.position;
 
-            // Réactiver les BoxCollider des obstacles après un court délai
+            // Rï¿½activer les BoxCollider des obstacles aprï¿½s un court dï¿½lai
             StartCoroutine(EnableObstacleCollidersAfterDelay());
 
-            // Réinitialiser l'état de mort du joueur
+            // Rï¿½initialiser l'ï¿½tat de mort du joueur
             isPlayerDead = false;
         }
     }
 
     private IEnumerator EnableObstacleCollidersAfterDelay()
     {
-        // Attendre un court délai avant de réactiver les BoxCollider des obstacles
+        // Attendre un court dï¿½lai avant de rï¿½activer les BoxCollider des obstacles
         yield return new WaitForSeconds(0.1f);
 
-        // Réactiver les BoxCollider des obstacles
+        // Rï¿½activer les BoxCollider des obstacles
         EnableObstacleColliders();
     }
 
     private void DisableObstacleColliders()
     {
-        // Trouver tous les GameObjects avec le tag "Obstacle" dans la scène
+        // Trouver tous les GameObjects avec le tag "Obstacle" dans la scï¿½ne
         GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
 
-        // Désactiver les BoxCollider des obstacles
+        // Dï¿½sactiver les BoxCollider des obstacles
         foreach (GameObject obstacle in obstacles)
         {
             BoxCollider collider = obstacle.GetComponent<BoxCollider>();
@@ -66,13 +66,13 @@ public class KillPlayer : MonoBehaviour
             }
         }
 
-        // Marquer les obstacles comme désactivés
+        // Marquer les obstacles comme dï¿½sactivï¿½s
         areObstaclesDisabled = true;
     }
 
     private void EnableObstacleColliders()
     {
-        // Trouver tous les GameObjects avec le tag "Obstacle" dans la scène
+        // Trouver tous les GameObjects avec le tag "Obstacle" dans la scï¿½ne
         GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
 
         // Activer les BoxCollider des obstacles
@@ -85,7 +85,7 @@ public class KillPlayer : MonoBehaviour
             }
         }
 
-        // Marquer les obstacles comme activés
-        areObstaclesDisabled = false;
+        // Marquer les obstacles comme activï¿½s
+        areObstaclesDisabled = true;
     }
 }
