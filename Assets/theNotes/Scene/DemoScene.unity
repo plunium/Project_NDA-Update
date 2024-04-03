@@ -4515,7 +4515,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2039794532}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: GUIConrtol_note, Assembly-CSharp
         m_MethodName: CameraRotationControlBtn
         m_Mode: 2
         m_Arguments:
@@ -7148,7 +7148,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2039794532}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: GUIConrtol_note, Assembly-CSharp
         m_MethodName: BackLightControlBtn
         m_Mode: 2
         m_Arguments:
