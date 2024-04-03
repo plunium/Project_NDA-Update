@@ -34,7 +34,12 @@ public class PlayerMovement : MonoBehaviour
     public bool isPlayerRagdollActive;
     public bool isRagdollActive { get; set; }
     private bool _isRagdollActive = false;
+    private bool _isSliding = false;
 
+    public bool IsSliding()
+    {
+        return _isSliding;
+    }
     void Update()
     {
         if (!_isRagdollActive)
@@ -104,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _numberOfColliderUnder++;
     }
+
 
     private void OnTriggerExit(Collider other)
     {
