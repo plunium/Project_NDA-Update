@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 358352548}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2234,7 +2234,7 @@ Transform:
   m_GameObject: {fileID: 578884312}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.195024, y: -1.3020157, z: 2.0135365}
+  m_LocalPosition: {x: -1, y: -1.5, z: 0.06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3421,7 +3421,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &852915484
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3541,7 +3541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &891923002
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9062,17 +9062,17 @@ PrefabInstance:
     - target: {fileID: 2268727725246869516, guid: f73e3789866fab84d821b0448e5b3cf7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.195024
+      value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: 2268727725246869516, guid: f73e3789866fab84d821b0448e5b3cf7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.41
+      value: -0.77
       objectReference: {fileID: 0}
     - target: {fileID: 2268727725246869516, guid: f73e3789866fab84d821b0448e5b3cf7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.6
+      value: -5.47
       objectReference: {fileID: 0}
     - target: {fileID: 2268727725246869516, guid: f73e3789866fab84d821b0448e5b3cf7,
         type: 3}
@@ -9108,6 +9108,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5596801883953991232, guid: f73e3789866fab84d821b0448e5b3cf7,
+        type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 801329393}
+    - target: {fileID: 5596801883953991232, guid: f73e3789866fab84d821b0448e5b3cf7,
+        type: 3}
+      propertyPath: camTilt
+      value: -7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5596801883953991232, guid: f73e3789866fab84d821b0448e5b3cf7,
+        type: 3}
+      propertyPath: camTiltTime
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7116268682946064277, guid: f73e3789866fab84d821b0448e5b3cf7,
         type: 3}

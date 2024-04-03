@@ -11,7 +11,7 @@ public class KillPlayer : MonoBehaviour
     public float impactForce = 50f; // Force d'impulsion appliquée au joueur lorsqu'il entre en collision avec un obstacle
 
     private bool isPlayerDead = false; // Booléen pour suivre l'état de mort du joueur
-    private bool areObstaclesDisabled = false; // Booléen pour suivre l'état de désactivation des obstacles
+    
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -25,11 +25,7 @@ public class KillPlayer : MonoBehaviour
                 rb.AddForce(impactDirection * impactForce, ForceMode.Impulse);
             }
 
-            // Désactiver les BoxCollider des obstacles si ce n'est pas déjà fait
-            if (!areObstaclesDisabled)
-            {
-                DisableObstacleColliders();
-            }
+          
 
             // Marquer le joueur comme mort
             isPlayerDead = true;
@@ -109,7 +105,6 @@ public class KillPlayer : MonoBehaviour
             }
         }
 
-        // Marquer les obstacles comme désactivés
-        areObstaclesDisabled = true;
+       
     }
 }
