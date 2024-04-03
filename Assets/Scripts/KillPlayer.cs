@@ -8,15 +8,24 @@ public class KillPlayer : MonoBehaviour
 {
     public Transform respawnPoint; // Point de respawn du joueur
     public GameObject deathMenuCanvas;
+    public float impactForce = 50f; // Force d'impulsion appliquée au joueur lorsqu'il entre en collision avec un obstacle
 
-    private bool isPlayerDead = false; // Bool�en pour suivre l'�tat de mort du joueur
-    private bool areObstaclesDisabled = false; // Bool�en pour suivre l'�tat de d�sactivation des obstacles
+    private bool isPlayerDead = false; // Booléen pour suivre l'état de mort du joueur
+    private bool areObstaclesDisabled = false; // Booléen pour suivre l'état de désactivation des obstacles
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Obstacle") && !isPlayerDead) // V�rifie si le joueur entre en collision avec une zone de mort et n'est pas d�j� mort
+        if (collision.gameObject.CompareTag("Obstacle") && !isPlayerDead) // Vérifie si le joueur entre en collision avec une zone de mort et n'est pas déjà mort
         {
-            // D�sactiver les BoxCollider des obstacles si ce n'est pas d�j� fait
+            // Appliquer une force d'impulsion au joueur
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                Vector3 impactDirection = (transform.position - collision.contacts[0].point).normalized;
+                rb.AddForce(impactDirection * impactForce, ForceMode.Impulse);
+            }
+
+            // Désactiver les BoxCollider des obstacles si ce n'est pas déjà fait
             if (!areObstaclesDisabled)
             {
                 DisableObstacleColliders();
@@ -25,38 +34,72 @@ public class KillPlayer : MonoBehaviour
             // Marquer le joueur comme mort
             isPlayerDead = true;
 
+            // Activer le mode ragdoll
+            RagdollController ragdollController = GetComponent<RagdollController>();
+            PlayerMovement playerMovement = null;
+            if (ragdollController != null)
+            {
+                playerMovement = GetComponent<PlayerMovement>();
+                if (isGrounded())
+                {
+                    ragdollController.EnableRagdoll();
+                    transform.position = ragdollController.transform.position;
+                }
+            }
+
+            // Marquer le mode ragdoll comme actif dans le script PlayerMovement
+            if (playerMovement != null)
+            {
+                playerMovement.isPlayerRagdollActive = true;
+            }
+
             // Afficher le menu de mort
             if (deathMenuCanvas != null)
             {
                 deathMenuCanvas.SetActive(true);
             }
 
-            // R�initialiser la position du joueur au point de respawn
-            transform.position = respawnPoint.position;
-
-            // R�activer les BoxCollider des obstacles apr�s un court d�lai
-            StartCoroutine(EnableObstacleCollidersAfterDelay());
-
-            // R�initialiser l'�tat de mort du joueur
-            isPlayerDead = false;
+            // Attendre que l'animation ragdoll soit terminée avant de réinitialiser la position du joueur
+            StartCoroutine(ResetPlayerPositionAfterDelay());
         }
     }
 
-    private IEnumerator EnableObstacleCollidersAfterDelay()
+    private IEnumerator ResetPlayerPositionAfterDelay()
     {
-        // Attendre un court d�lai avant de r�activer les BoxCollider des obstacles
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(10f); // Attendre x secondes avant de réinitialiser la position du joueur
 
-        // R�activer les BoxCollider des obstacles
-        EnableObstacleColliders();
+        // Désactiver le mode ragdoll
+        RagdollController ragdollController = GetComponent<RagdollController>();
+        if (ragdollController != null)
+        {
+            if (GetComponent<PlayerMovement>().isPlayerRagdollActive)
+            {
+                ragdollController.DisableRagdoll();
+                GetComponent<PlayerMovement>().SetRagdollActive(false);
+            }
+        }
+
+        // Réinitialiser la scène
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private bool isGrounded()
+    {
+        // Vérifier si le joueur est au sol en utilisant une sphère de rayon 0,1 unité
+        // centrée sur la position du joueur et dirigée vers le bas
+        RaycastHit hit;
+        Vector3 position = transform.position;
+        position.y += 0.1f;
+        bool isGrounded = Physics.SphereCast(position, 0.1f, Vector3.down, out hit, 0.2f);
+        return isGrounded;
     }
 
     private void DisableObstacleColliders()
     {
-        // Trouver tous les GameObjects avec le tag "Obstacle" dans la sc�ne
+        // Trouver tous les GameObjects avec le tag "Obstacle" dans la scène
         GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
 
-        // D�sactiver les BoxCollider des obstacles
+        // Désactiver les BoxCollider des obstacles
         foreach (GameObject obstacle in obstacles)
         {
             BoxCollider collider = obstacle.GetComponent<BoxCollider>();
@@ -66,26 +109,7 @@ public class KillPlayer : MonoBehaviour
             }
         }
 
-        // Marquer les obstacles comme d�sactiv�s
+        // Marquer les obstacles comme désactivés
         areObstaclesDisabled = true;
-    }
-
-    private void EnableObstacleColliders()
-    {
-        // Trouver tous les GameObjects avec le tag "Obstacle" dans la sc�ne
-        GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
-
-        // Activer les BoxCollider des obstacles
-        foreach (GameObject obstacle in obstacles)
-        {
-            BoxCollider collider = obstacle.GetComponent<BoxCollider>();
-            if (collider != null)
-            {
-                collider.enabled = true;
-            }
-        }
-
-        // Marquer les obstacles comme activ�s
-        areObstaclesDisabled = false;
     }
 }

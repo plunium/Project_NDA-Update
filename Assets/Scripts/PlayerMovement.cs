@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
     [SerializeField]
     private float _forwardSpeed;
     [SerializeField]
@@ -21,60 +20,69 @@ public class PlayerMovement : MonoBehaviour
 
     private float _timer = 0;
     private int _numberOfColliderUnder = 0;
+    public bool isPlayerRagdollActive;
+    public bool isRagdollActive { get; set; }
+    private bool _isRagdollActive = false;
 
     void Update()
     {
-        _timer += Time.deltaTime;
-
-        float forwardDelta = _forwardSpeed * Time.deltaTime;
-        float lateralDelta = _lateralSpeed * Time.deltaTime;
-
-        Vector3 CurrentSpeed = _rb.velocity;
-
-        Vector3 tempSpeed = CurrentSpeed;
-
-        //mouvement avant
-        tempSpeed = transform.forward * _forwardSpeed;
-
-        //On conserve la vitesse verticale
-        tempSpeed.y = _rb.velocity.y;
-
-        // Mouvement horizontal
-        if (Input.GetKey(KeyCode.RightArrow))
-            tempSpeed += transform.right * _lateralSpeed;
-        if (Input.GetKey(KeyCode.LeftArrow))
-            tempSpeed += -transform.right * _lateralSpeed;
-
-        _rb.velocity = Vector3.Lerp(_rb.velocity, tempSpeed, _acceleration * Time.deltaTime);
-
-        //Mouvement de saut
-        if (Input.GetKeyDown(KeyCode.Space) && _numberOfColliderUnder > 0 && _timer > 1.0f)
+        if (!_isRagdollActive)
         {
-            _rb.AddForce(new Vector3(0, _jumpForce, 0));
-            _playerAnimator.SetTrigger("Jump");
+            _timer += Time.deltaTime;
+
+            float forwardDelta = _forwardSpeed * Time.deltaTime;
+            float lateralDelta = _lateralSpeed * Time.deltaTime;
+
+            Vector3 currentSpeed = _rb.velocity;
+
+            Vector3 tempSpeed = currentSpeed;
+
+            //mouvement avant
+            tempSpeed = transform.forward * _forwardSpeed;
+
+            //On conserve la vitesse verticale
+            tempSpeed.y = _rb.velocity.y;
+
+            // Mouvement horizontal
+            if (Input.GetKey(KeyCode.RightArrow))
+                tempSpeed += transform.right * _lateralSpeed;
+            if (Input.GetKey(KeyCode.LeftArrow))
+                tempSpeed += -transform.right * _lateralSpeed;
+
+            _rb.velocity = Vector3.Lerp(_rb.velocity, tempSpeed, _acceleration * Time.deltaTime);
+
+            //Mouvement de saut
+            if (Input.GetKeyDown(KeyCode.Space) && _numberOfColliderUnder > 0 && _timer > 1.0f)
+            {
+                _rb.AddForce(new Vector3(0, _jumpForce, 0));
+                _playerAnimator.SetTrigger("Jump");
+            }
+
+            //Mouvement de slide
+            // en QWERTY Z = W
+            if (Input.GetKeyDown(KeyCode.Z) && _numberOfColliderUnder > 0 && _timer > 1.0f)
+            {
+                _playerAnimator.SetTrigger("Slide");
+            }
+
+            //Gravité
+            if (_rb.velocity.y < -1)
+                _rb.AddForce(Physics.gravity * Time.deltaTime * 100);
         }
-
-        //Mouvement de slide
-        // en QWERTY Z = W
-        if (Input.GetKeyDown(KeyCode.Z) && _numberOfColliderUnder > 0 && _timer > 1.0f)
-        {
-            _playerAnimator.SetTrigger("Slide");
-        }
-
-        //Gravité
-        if (_rb.velocity.y < -1)
-            _rb.AddForce(Physics.gravity * Time.deltaTime * 100);
-
     }
 
     private void OnTriggerEnter(Collider other)
     {
         _numberOfColliderUnder++;
-        
     }
+
     private void OnTriggerExit(Collider other)
     {
         _numberOfColliderUnder--;
     }
 
+    public void SetRagdollActive(bool isActive)
+    {
+        _isRagdollActive = isActive;
+    }
 }

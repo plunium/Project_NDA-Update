@@ -3,8 +3,10 @@ guid: 053832587042540499969afd974dd870
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
+  defaultReferences:
+  - respawnPoint: {instanceID: 0}
+  - deathMenuCanvas: {instanceID: 0}
+  executionOrder: 400
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 
