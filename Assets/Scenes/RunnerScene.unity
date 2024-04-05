@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 358352548}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8901,12 +8901,12 @@ PrefabInstance:
     - target: {fileID: 2475113464176623973, guid: 3eafa5807efcb65489805afdf1e8d249,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.95
+      value: -3.98
       objectReference: {fileID: 0}
     - target: {fileID: 2475113464176623973, guid: 3eafa5807efcb65489805afdf1e8d249,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.08
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 2475113464176623973, guid: 3eafa5807efcb65489805afdf1e8d249,
         type: 3}
@@ -8947,6 +8947,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2609464190538963833, guid: 3eafa5807efcb65489805afdf1e8d249,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3896690944916450022, guid: 3eafa5807efcb65489805afdf1e8d249,
         type: 3}
@@ -9023,6 +9028,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3893933590491669827, guid: 7538cf0d63c3beb448b8d70cb0b79667,
         type: 3}
+      propertyPath: m_Size.y
+      value: 1.495756
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893933590491669827, guid: 7538cf0d63c3beb448b8d70cb0b79667,
+        type: 3}
       propertyPath: m_Size.z
       value: 0.9
       objectReference: {fileID: 0}
@@ -9054,10 +9064,20 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2687542307933350036, guid: 84d32a841e06eec46a9b32aa131b879c,
+        type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2860137778158776787, guid: 84d32a841e06eec46a9b32aa131b879c,
         type: 3}
       propertyPath: m_Name
       value: RoadBlock_D
+      objectReference: {fileID: 0}
+    - target: {fileID: 7388064377302123360, guid: 84d32a841e06eec46a9b32aa131b879c,
+        type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9219488921875676694, guid: 84d32a841e06eec46a9b32aa131b879c,
         type: 3}
