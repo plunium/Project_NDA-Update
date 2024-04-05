@@ -11,54 +11,85 @@ public class KillPlayer : MonoBehaviour
     public float impactForce = 50f; // Force d'impulsion appliquée au joueur lorsqu'il entre en collision avec un obstacle
 
     private bool isPlayerDead = false; // Booléen pour suivre l'état de mort du joueur
-    
+
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Obstacle") && !isPlayerDead) // Vérifie si le joueur entre en collision avec une zone de mort et n'est pas déjà mort
         {
-            // Appliquer une force d'impulsion au joueur
-            Rigidbody rb = GetComponent<Rigidbody>();
-            if (rb != null)
+            PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+
+            // Vérifier si le joueur est en train de glisser
+            if (playerMovement != null && playerMovement.IsSliding())
             {
-                Vector3 impactDirection = (transform.position - collision.contacts[0].point).normalized;
-                rb.AddForce(impactDirection * impactForce, ForceMode.Impulse);
-            }
+                // Marquer le joueur comme mort
+                isPlayerDead = true;
 
-          
-
-            // Marquer le joueur comme mort
-            isPlayerDead = true;
-
-            // Activer le mode ragdoll
-            RagdollController ragdollController = GetComponent<RagdollController>();
-            PlayerMovement playerMovement = null;
-            if (ragdollController != null)
-            {
-                playerMovement = GetComponent<PlayerMovement>();
-                if (isGrounded())
+                // Activer le mode ragdoll
+                RagdollController ragdollController = GetComponent<RagdollController>();
+                if (ragdollController != null)
                 {
                     ragdollController.EnableRagdoll();
                     transform.position = ragdollController.transform.position;
                 }
-            }
 
-            // Marquer le mode ragdoll comme actif dans le script PlayerMovement
-            if (playerMovement != null)
+                // Marquer le mode ragdoll comme actif dans le script PlayerMovement
+                if (playerMovement != null)
+                {
+                    playerMovement.isPlayerRagdollActive = true;
+                }
+
+                // Afficher le menu de mort
+                if (deathMenuCanvas != null)
+                {
+                    deathMenuCanvas.SetActive(true);
+                }
+
+                // Attendre que l'animation ragdoll soit terminée avant de réinitialiser la position du joueur
+                StartCoroutine(ResetPlayerPositionAfterDelay());
+            }
+            else
             {
-                playerMovement.isPlayerRagdollActive = true;
-            }
+                // Appliquer une force d'impulsion au joueur
+                Rigidbody rb = GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    Vector3 impactDirection = (transform.position - collision.contacts[0].point).normalized;
+                    rb.AddForce(impactDirection * impactForce, ForceMode.Impulse);
+                }
 
-            // Afficher le menu de mort
-            if (deathMenuCanvas != null)
-            {
-                deathMenuCanvas.SetActive(true);
-            }
+                // Marquer le joueur comme mort
+                isPlayerDead = true;
 
-            // Attendre que l'animation ragdoll soit terminée avant de réinitialiser la position du joueur
-            StartCoroutine(ResetPlayerPositionAfterDelay());
+                // Activer le mode ragdoll
+                RagdollController ragdollController = GetComponent<RagdollController>();
+                if (ragdollController != null)
+                {
+                    if (isGrounded())
+                    {
+                        ragdollController.EnableRagdoll();
+                        transform.position = ragdollController.transform.position;
+                    }
+                }
+
+                // Marquer le mode ragdoll comme actif dans le script PlayerMovement
+                if (playerMovement != null)
+                {
+                    playerMovement.isPlayerRagdollActive = true;
+                }
+
+                // Afficher le menu de mort
+                if (deathMenuCanvas != null)
+                {
+                    deathMenuCanvas.SetActive(true);
+                }
+
+                // Attendre que l'animation ragdoll soit terminée avant de réinitialiser la position du joueur
+                StartCoroutine(ResetPlayerPositionAfterDelay());
+            }
         }
     }
+
 
     private IEnumerator ResetPlayerPositionAfterDelay()
     {
