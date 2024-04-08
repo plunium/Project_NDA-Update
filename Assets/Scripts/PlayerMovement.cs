@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -16,25 +17,22 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Rigidbody _rb;
 
-    [Header("Camera Tilt")]
+    [Header("Camera movement")]
     [SerializeField]
-    private Camera cam;
-    [SerializeField]
-    private float camTilt;
-    [SerializeField]
-    private float camTiltTime;
+    private CameraFollow _cam;
 
     [Header("Player Animation")]
     [SerializeField]
     private Animator _playerAnimator;
 
-    public float tilt { get; private set; }
+
     private float _timer = 2.0f;
     private int _numberOfColliderUnder = 0;
     public bool isPlayerRagdollActive;
     public bool isRagdollActive { get; set; }
     private bool _isRagdollActive = false;
     private bool _isSliding = false;
+    private bool _isJumping = false;
 
     public bool IsSliding()
     {
@@ -45,6 +43,17 @@ public class PlayerMovement : MonoBehaviour
         if (!_isRagdollActive)
         {
             _timer += Time.deltaTime;
+
+            if (_isSliding && (_timer > 1.0f))
+            {
+                _isSliding = false;
+                _cam.setRun();
+            }
+            else if (_isJumping && (_timer > 0.9f))
+            {
+                _isJumping = false;
+                _cam.setRun();
+            }
 
             float forwardDelta = _forwardSpeed * Time.deltaTime;
             float lateralDelta = _lateralSpeed * Time.deltaTime;
@@ -63,12 +72,13 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKey(KeyCode.RightArrow))
             {
                 tempSpeed += transform.right * _lateralSpeed;
-                tilt = Mathf.Lerp(tilt, camTilt, camTiltTime * Time.deltaTime);
+                _cam.setTurnRight();
+                //_playerAnimator.SetTrigger("Turn_Right");
             }
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 tempSpeed += -transform.right * _lateralSpeed;
-                tilt = Mathf.Lerp(tilt, -camTilt, camTiltTime * Time.deltaTime);
+                _cam.setTurnLeft();
             }
 
             _rb.velocity = Vector3.Lerp(_rb.velocity, tempSpeed, _acceleration * Time.deltaTime);
@@ -76,6 +86,7 @@ public class PlayerMovement : MonoBehaviour
             //Mouvement de saut
             if (Input.GetKeyDown(KeyCode.Space) && _numberOfColliderUnder > 0 && _timer > 1.0f)
             {
+                _isJumping = true;
                 _rb.AddForce(new Vector3(0, _jumpForce, 0));
                 _playerAnimator.SetTrigger("Jump");
                 _timer = 0.0f;
@@ -89,18 +100,21 @@ public class PlayerMovement : MonoBehaviour
                 && _numberOfColliderUnder > 0
                 && _timer > 1.0f)
             {
+                _isSliding = true;
                 _playerAnimator.SetTrigger("Slide");
                 _timer = 0.0f;
+                _cam.setSlide();
             }
 
             //Gravité
             if (_rb.velocity.y < -1)
                 _rb.AddForce(Physics.gravity * Time.deltaTime * 100);
 
-            if (!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
-                tilt = Mathf.Lerp(tilt, 0, camTiltTime * Time.deltaTime);
-
-            cam.transform.localEulerAngles = new Vector3(0, 0, tilt);
+            if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
+            {
+                //_playerAnimator.SetTrigger("Run");
+                _cam.setRun();
+            }
 
         }
     }
