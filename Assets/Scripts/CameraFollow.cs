@@ -21,9 +21,18 @@ public class CameraFollow : MonoBehaviour
     private void Update()
     {
         _timer += Time.deltaTime;
-
         transform.position = Vector3.Lerp(transform.position, Pos[IdPos].position, CameraSpeed);
         transform.rotation = Quaternion.Lerp(transform.rotation, Pos[IdPos].rotation, CameraSpeed);
+
+        if (IdPos >= 0 && IdPos < Pos.Length)
+{
+    transform.position = Vector3.Lerp(transform.position, Pos[IdPos].position, CameraSpeed);
+    transform.rotation = Quaternion.Lerp(transform.rotation, Pos[IdPos].rotation, CameraSpeed);
+}
+else
+{
+    Debug.LogError("IdPos is out of range: " + IdPos);
+}
     }
 
     public void setRun()

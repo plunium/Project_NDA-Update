@@ -134,4 +134,4 @@ public class PlayerMovement : MonoBehaviour
     {
         _isRagdollActive = isActive;
     }
-}
+} 
