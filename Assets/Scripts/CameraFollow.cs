@@ -18,13 +18,15 @@ public class CameraFollow : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void Update(){
+    private void Update()
+    {
         _timer += Time.deltaTime;
         transform.position = Vector3.Lerp(transform.position, Pos[IdPos].position, CameraSpeed);
         transform.rotation = Quaternion.Lerp(transform.rotation, Pos[IdPos].rotation, CameraSpeed);
     }
 
-    public void setRun(){
+    public void setRun()
+    {
         IdPos = 0;
     }
 
