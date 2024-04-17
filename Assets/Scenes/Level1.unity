@@ -19574,7 +19574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 7.5
-  distanceToMove: -30
+  distanceToMove: -74.5
   delay: 1
 --- !u!1001 &868094631
 PrefabInstance:
