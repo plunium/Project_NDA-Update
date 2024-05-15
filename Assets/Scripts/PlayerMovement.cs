@@ -89,15 +89,7 @@ public class PlayerMovement : MonoBehaviour
 
             _rb.velocity = Vector3.Lerp(_rb.velocity, tempSpeed, _acceleration * Time.deltaTime);
 
-            //Mouvement de saut
-            if (Input.GetKeyDown(KeyCode.Space) && _numberOfColliderUnder > 0 && _timer > 1.0f)
-            {
-                _isJumping = true;
-                _rb.AddForce(new Vector3(0, _jumpForce, 0));
-                _playerAnimator.SetTrigger("Jump");
-                _timer = 0.0f;
-
-            }
+            
             
 
             //Mouvement de slide
@@ -132,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
                 if (hit.collider.CompareTag("Obstacle") && Input.GetKeyDown(KeyCode.Space))
                 {
                     _isParkouring = true;
+                    _rb.AddForce(new Vector3(0, _jumpForce, 0));
                     PlayRandomParkourAnimation();
                     _timer = 0.0f;
                     _canJump = false;
@@ -139,7 +132,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
             //Mouvement de saut
-            if (_canJump && Input.GetKeyDown(KeyCode.Space) && _numberOfColliderUnder > 0 && _timer > 1.0f)
+            else if (_canJump && Input.GetKeyDown(KeyCode.Space) && _numberOfColliderUnder > 0 && _timer > 1.0f)
             {
                 _isJumping = true;
                 _rb.AddForce(new Vector3(0, _jumpForce, 0));
