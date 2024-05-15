@@ -65,7 +65,8 @@ public class KillPlayer : MonoBehaviour
                 RagdollController ragdollController = GetComponent<RagdollController>();
                 if (ragdollController != null)
                 {
-                    if (isGrounded())
+                    /*if (isGrounded())
+                     */
                     {
                         ragdollController.EnableRagdoll();
                         transform.position = ragdollController.transform.position;
