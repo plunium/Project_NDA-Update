@@ -9,7 +9,7 @@ public class EndLevel : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            SceneManager.LoadScene("Level2");
+            SceneManager.LoadScene("MainMenu");
         }
     }
 }

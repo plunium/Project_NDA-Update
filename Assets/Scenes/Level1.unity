@@ -27808,8 +27808,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.03}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 348, y: 175.54037}
-  m_SizeDelta: {x: -720.6046, y: -519.9983}
+  m_AnchoredPosition: {x: -250.33, y: 117}
+  m_SizeDelta: {x: -500.6577, y: -606.6172}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1281142734
 CanvasRenderer:
@@ -27832,7 +27832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 1, b: 0.058556795, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.8481555, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -27841,7 +27841,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 5dd49b3eacc540408c98eee0de38e0f1, type: 3}
-    m_FontSize: 10
+    m_FontSize: 20
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -27852,7 +27852,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Notes : 0'
+  m_Text: 'Score : 0'
 --- !u!1001 &1294134447
 PrefabInstance:
   m_ObjectHideFlags: 0
